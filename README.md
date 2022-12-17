@@ -8,3 +8,6 @@
 - TypeScript
 - Recoil
 - Emotion
+- Prisma
+- PlanetScale
+- CloudFlare
