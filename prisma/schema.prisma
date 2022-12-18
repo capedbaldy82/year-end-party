@@ -11,8 +11,10 @@ datasource db {
 
 model User {
   id           Int           @id @default(autoincrement())
-  kakaoId      String        @unique
-  name         String        @unique
+  name         String
+  uuid         Int           @unique
+  kakaoId      Int           @unique
+  token        String        @default("")
   avatar       String?
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
