@@ -12,16 +12,22 @@
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@next/font": "13.0.7",
+    "@prisma/client": "^4.7.1",
+    "@types/jsonwebtoken": "^8.5.9",
     "@types/node": "18.11.16",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
     "eslint": "8.30.0",
     "eslint-config-next": "13.0.7",
+    "jsonwebtoken": "^8.5.1",
     "next": "13.0.7",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "recoil": "^0.7.6",
     "typescript": "4.9.4"
   },
-  "homepage": "https://www.year-end-party.site"
+  "homepage": "https://www.year-end-party.site",
+  "devDependencies": {
+    "prisma": "^4.7.1"
+  }
 }
