@@ -6,7 +6,11 @@ const Background = styled.div`
   display: flex;
   justify-content: center;
 
-  background-color: gray;
+  background-image: url("/img/background.png");
+  background-color: black;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 `;
 
 const Container = styled.div`
@@ -14,7 +18,7 @@ const Container = styled.div`
   max-width: 480px;
   min-height: 100vh;
 
-  background-color: white;
+  background-color: transparent;
 `;
 
 const Children = styled.main`
