@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 import React, { HTMLAttributes } from "react";
 
+const Container = styled.div``;
+
+const Label = styled.label``;
+
 const StyledTextArea = styled.textarea`
   resize: none;
   outline: none;
@@ -13,10 +17,17 @@ const StyledTextArea = styled.textarea`
   border-radius: 4px;
 `;
 
-interface TextAreaProps extends HTMLAttributes<HTMLTextAreaElement> {}
+interface TextAreaProps extends HTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
+}
 
-function TextArea({ ...props }: TextAreaProps) {
-  return <StyledTextArea {...props} />;
+function TextArea({ label, ...props }: TextAreaProps) {
+  return (
+    <Container>
+      {label && <Label>{label}</Label>}
+      <StyledTextArea {...props} />
+    </Container>
+  );
 }
 
 export default TextArea;

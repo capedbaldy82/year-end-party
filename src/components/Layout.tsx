@@ -1,18 +1,28 @@
 import styled from "@emotion/styled";
 import React, { ReactNode } from "react";
+import Header from "./Header";
 
-const Container = styled.div`
+const Background = styled.div`
   display: flex;
   justify-content: center;
 
-  background-color: gray;
+  background-image: url("/img/background.png");
+  background-color: black;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 `;
 
-const Children = styled.main`
+const Container = styled.div`
+  width: 100%;
   max-width: 480px;
   min-height: 100vh;
 
-  background-color: white;
+  background-color: transparent;
+`;
+
+const Children = styled.main`
+  padding: 0px 16px;
 `;
 
 interface LayoutProps {
@@ -21,9 +31,12 @@ interface LayoutProps {
 
 function Layout({ children }: LayoutProps) {
   return (
-    <Container>
-      <Children>{children}</Children>
-    </Container>
+    <Background>
+      <Container>
+        <Header />
+        <Children>{children}</Children>
+      </Container>
+    </Background>
   );
 }
 
