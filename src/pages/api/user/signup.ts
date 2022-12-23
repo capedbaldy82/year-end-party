@@ -10,31 +10,47 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   }
 
   // 존재하는 유저 확인
-  const isUser = !!(await client.user.findUnique({
+  const isUser = await client.user.findUnique({
     where: {
       kakaoId: kakao_id,
     },
-  }));
+  });
 
-  if (isUser) {
+  if (!!isUser) {
     return res.status(400).json({ ok: false, message: '이미 존재하는 사용자입니다.' });
   }
 
-  // 존재하지 않는 경우 회원가입 진행
-  const uuid = Math.floor(Math.random() * 1000000);
-
-  const hasedKakaoID = jwt.sign({ kakao_id, name }, process.env.SECRET_KEY, { expiresIn: '365d' });
-
-  const user = await client.user.create({
-    data: {
-      name: name,
-      kakaoId: kakao_id,
-      token: hasedKakaoID,
-      uuid,
+  const usersOnlyUuid = await client.user.findMany({
+    select: {
+      uuid: true,
     },
   });
 
-  res.json({ ok: true, name, uuid, access_token: hasedKakaoID });
+  const Uuids = usersOnlyUuid.map((obj) => obj.uuid);
+
+  let newUuid = 69829;
+  // let newUuid = Math.floor(Math.random() * 1000000 + 1);
+
+  while (Uuids.includes(newUuid)) {
+    newUuid = Math.floor(Math.random() * 1000000 + 1);
+  }
+
+  const hashedKakaoID = jwt.sign({ kakao_id, name }, process.env.SECRET_KEY, { expiresIn: '365d' });
+
+  try {
+    const user = await client.user.create({
+      data: {
+        name: name,
+        kakaoId: kakao_id,
+        token: hashedKakaoID,
+        uuid: newUuid,
+      },
+    });
+  } catch (error) {
+    return res.status(500).json({ ok: false, message: '회원가입에 실패했습니다.' });
+  }
+
+  res.json({ ok: true, name, uuid: newUuid, access_token: hashedKakaoID });
 };
 
 export default handler;
