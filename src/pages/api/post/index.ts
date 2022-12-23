@@ -42,9 +42,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   if (req.method === 'POST') {
     // 방명록 작성
-    const { to, name, content } = req.body;
+    const { to, name, badge, content } = req.body;
 
-    if (!to || !name || !content) {
+    if (!to || !name || !badge || !content) {
       return res.status(400).json({ ok: false, message: '잘못된 요청입니다.' });
     }
 
@@ -71,12 +71,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       const post = await client.post.create({
         data: {
           name,
+          badge,
           content,
           rollingPaperId: rollingPaperId,
         },
       });
 
-      return res.json({ ok: true, post: { name: post.name, content: post.content } });
+      return res.json({
+        ok: true,
+        post: { name: post.name, badge: post.badge, content: post.content },
+      });
     } catch (error) {
       return res.status(500).json({ ok: false, error });
     }
