@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import React, { ReactNode } from "react";
+import Hands from "./Hands";
 import Header from "./Header";
 
 const Background = styled.div`
@@ -14,14 +15,26 @@ const Background = styled.div`
 `;
 
 const Container = styled.div`
+  position: relative;
+
   width: 100%;
   max-width: 480px;
   min-height: 100vh;
+`;
 
-  background-color: transparent;
+const BackgroundHands = styled.div`
+  position: absolute;
+
+  width: 100%;
+
+  top: 15%;
 `;
 
 const Children = styled.main`
+  position: absolute;
+
+  width: 100%;
+
   padding: 0px 16px;
 `;
 
@@ -34,6 +47,9 @@ function Layout({ children }: LayoutProps) {
     <Background>
       <Container>
         <Header />
+        <BackgroundHands>
+          <Hands />
+        </BackgroundHands>
         <Children>{children}</Children>
       </Container>
     </Background>

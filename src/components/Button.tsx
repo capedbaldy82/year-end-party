@@ -2,15 +2,19 @@ import styled from "@emotion/styled";
 import React, { HTMLAttributes } from "react";
 
 const StyledButton = styled.button`
+  cursor: pointer;
+
   width: 100%;
+  padding: 16px;
 
-  padding: 8px 16px;
+  background-color: #f2a876;
 
+  border: none;
   border-radius: 4px;
 
   color: white;
-  background-color: black;
-
+  font-size: 16px;
+  font-weight: 700;
   text-align: center;
 `;
 

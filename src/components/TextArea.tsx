@@ -1,31 +1,58 @@
 import styled from "@emotion/styled";
-import React, { HTMLAttributes } from "react";
+import React, { InputHTMLAttributes } from "react";
 
-const Container = styled.div``;
+const Container = styled.div`
+  width: 100%;
+  height: 300px;
 
-const Label = styled.label``;
+  padding: 8px;
+
+  background-color: rgba(0, 0, 0, 0.6);
+  border: 1px solid #ffffff;
+  border-radius: 8px;
+`;
 
 const StyledTextArea = styled.textarea`
   resize: none;
   outline: none;
+  border: none;
 
   width: 100%;
-  height: 200px;
+  height: 90%;
 
-  padding: 4px;
+  background-color: transparent;
 
-  border-radius: 4px;
+  color: white;
+  font-size: 20px;
+  font-weight: 400;
 `;
 
-interface TextAreaProps extends HTMLAttributes<HTMLTextAreaElement> {
+const Count = styled.div`
+  width: 100%;
+  height: 10%;
+
+  font-weight: 400;
+  font-size: 12px;
+
+  color: #aaaaaa;
+
+  display: flex;
+  justify-content: flex-end;
+`;
+
+interface TextAreaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
+  count: number;
+  maxCount: number;
 }
 
-function TextArea({ label, ...props }: TextAreaProps) {
+function TextArea({ label, count, maxCount, ...props }: TextAreaProps) {
   return (
     <Container>
-      {label && <Label>{label}</Label>}
       <StyledTextArea {...props} />
+      <Count>
+        {count}/{maxCount}
+      </Count>
     </Container>
   );
 }
