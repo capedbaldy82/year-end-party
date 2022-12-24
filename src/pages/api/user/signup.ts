@@ -31,9 +31,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   let newUuid = 69829;
   // let newUuid = Math.floor(Math.random() * 1000000 + 1);
 
+  let i = 0;
   while (Uuids.includes(newUuid)) {
     newUuid = Math.floor(Math.random() * 1000000 + 1);
+    i++;
+    if (i > 100) {
+      break;
+    }
   }
+
+  newUuid = Math.floor(Math.random() * 1000000 + 1);
 
   const hashedKakaoID = jwt.sign({ kakao_id, name }, process.env.SECRET_KEY, { expiresIn: '365d' });
 
