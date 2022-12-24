@@ -28,8 +28,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   const Uuids = usersOnlyUuid.map((obj) => obj.uuid);
 
-  let newUuid = 69829;
-  // let newUuid = Math.floor(Math.random() * 1000000 + 1);
+  let newUuid = Math.floor(Math.random() * 1000000 + 1);
 
   let i = 0;
   while (Uuids.includes(newUuid)) {
