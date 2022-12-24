@@ -23,6 +23,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const content = RollingPaper?.RollingPaper?.content;
 
     res.json({ ok: true, name, content });
+  } else {
+    return res.json({ ok: false, message: '잘못된 요청입니다.' });
   }
 };
 
