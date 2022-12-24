@@ -73,7 +73,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           name: name + '',
           badge: badge + '',
           content: content + '',
-          rollingPaperId: rollingPaperId,
+          rollingPaperId: +rollingPaperId,
         },
       });
 

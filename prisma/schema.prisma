@@ -35,7 +35,7 @@ model Post {
   id             Int          @id @default(autoincrement())
   name           String
   content        String
-  badge          String       @default("soju")
+  badge          String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
   rollingPaper   RollingPaper @relation(fields: [rollingPaperId], references: [id])
