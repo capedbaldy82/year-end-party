@@ -1,16 +1,17 @@
-import React from "react";
-import Layout from "../components/Layout";
-import styled from "@emotion/styled";
-import KaKaoLoginButton from "../components/KaKaoLoginButton";
-import Title from "../components/Title";
-import Description from "../components/Description";
-import Spacer from "../components/Spacer";
-import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
-import { userInfoState } from "../atoms";
-import KakaoLogin from "react-kakao-login";
-import axios from "axios";
-import { Api } from "../apis";
+import React from 'react';
+import Layout from '../components/Layout';
+import styled from '@emotion/styled';
+import KaKaoLoginButton from '../components/KaKaoLoginButton';
+import Title from '../components/Title';
+import Description from '../components/Description';
+import Spacer from '../components/Spacer';
+import { useRouter } from 'next/router';
+import { useRecoilValue } from 'recoil';
+import { userInfoState } from '../atoms';
+import KakaoLogin from 'react-kakao-login';
+import axios from 'axios';
+import { Api } from '../apis';
+import { useEffect } from 'react';
 
 const Contianer = styled.div``;
 
@@ -35,7 +36,21 @@ export default function LandingPage() {
     },
   }: any) => {
     try {
-      const res = await Api.user.signup(id, nickname);
+      console.log(id, nickname);
+      // const res = await Api.user.signup(id, nickname);
+      const response = await fetch('/api/user/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          kakao_id: id,
+          name: nickname,
+        }),
+      });
+
+      const res = await response.json();
+
       console.log(res);
     } catch (error) {
       console.error(error);
