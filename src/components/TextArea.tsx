@@ -42,17 +42,19 @@ const Count = styled.div`
 
 interface TextAreaProps extends InputHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
-  count: number;
-  maxCount: number;
+  count?: number;
+  maxCount?: number;
 }
 
-function TextArea({ label, count, maxCount, ...props }: TextAreaProps) {
+function TextArea({ label, count = 0, maxCount = 0, ...props }: TextAreaProps) {
   return (
     <Container>
       <StyledTextArea {...props} />
-      <Count>
-        {count}/{maxCount}
-      </Count>
+      {(count !== 0 || maxCount !== 0) && (
+        <Count>
+          {count}/{maxCount}
+        </Count>
+      )}
     </Container>
   );
 }

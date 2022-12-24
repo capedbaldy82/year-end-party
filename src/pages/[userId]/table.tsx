@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
 import React from "react";
 import Button from "../../components/Button";
 import CheersTable from "../../components/CheersTable";
@@ -10,6 +11,9 @@ import Title from "../../components/Title";
 const Container = styled.div``;
 
 function TablePage() {
+  const router = useRouter();
+  const userId = router.query.userId as string;
+
   const copyURL = () => {
     let currentUrl = window.document.location.href;
     let t = document.createElement("textarea");

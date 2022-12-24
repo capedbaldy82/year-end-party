@@ -2,8 +2,12 @@ import styled from "@emotion/styled";
 import React, { ReactNode } from "react";
 import Hands from "./Hands";
 import Header from "./Header";
+import Spacer from "./Spacer";
 
 const Background = styled.div`
+  width: 100vw;
+  height: 100vh;
+
   display: flex;
   justify-content: center;
 
@@ -18,16 +22,18 @@ const Container = styled.div`
   position: relative;
 
   width: 100%;
+  height: 100%;
   max-width: 480px;
-  min-height: 100vh;
+
+  overflow-y: auto;
 `;
 
 const BackgroundHands = styled.div`
   position: absolute;
 
-  width: 100%;
-
-  top: 15%;
+  top: 100px;
+  left: 0;
+  right: 0;
 `;
 
 const Children = styled.main`
@@ -50,7 +56,10 @@ function Layout({ children }: LayoutProps) {
         <BackgroundHands>
           <Hands />
         </BackgroundHands>
-        <Children>{children}</Children>
+        <Children>
+          {children}
+          <Spacer my={36} />
+        </Children>
       </Container>
     </Background>
   );

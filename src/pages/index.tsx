@@ -1,17 +1,14 @@
-import React from 'react';
-import Layout from '../components/Layout';
-import styled from '@emotion/styled';
-import KaKaoLoginButton from '../components/KaKaoLoginButton';
-import Title from '../components/Title';
-import Description from '../components/Description';
-import Spacer from '../components/Spacer';
-import { useRouter } from 'next/router';
-import { useRecoilValue } from 'recoil';
-import { userInfoState } from '../atoms';
-import KakaoLogin from 'react-kakao-login';
-import axios from 'axios';
-import { Api } from '../apis';
-import { useEffect } from 'react';
+import React, { useEffect } from "react";
+import Layout from "../components/Layout";
+import styled from "@emotion/styled";
+import KaKaoLoginButton from "../components/KaKaoLoginButton";
+import Title from "../components/Title";
+import Description from "../components/Description";
+import Spacer from "../components/Spacer";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "../atoms";
+import KakaoLogin from "react-kakao-login";
 
 const Contianer = styled.div``;
 
@@ -23,11 +20,7 @@ const Actions = styled.div`
 
 export default function LandingPage() {
   const router = useRouter();
-  const userInfo = useRecoilValue(userInfoState);
-
-  const toCheers = () => {
-    router.replace(`/${userInfo.id}/cheers`);
-  };
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
 
   const onSuccess = async ({
     profile: {
@@ -36,12 +29,10 @@ export default function LandingPage() {
     },
   }: any) => {
     try {
-      console.log(id, nickname);
-      // const res = await Api.user.signup(id, nickname);
-      const response = await fetch('/api/user/signup', {
-        method: 'POST',
+      const response = await fetch("/api/user/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           kakao_id: id,
@@ -50,12 +41,26 @@ export default function LandingPage() {
       });
 
       const res = await response.json();
-
-      console.log(res);
+      if (res.ok) {
+        setUserInfo({
+          isLoggedIn: true,
+          id: res.uuid,
+          name: res.name,
+          token: res.access_token,
+        });
+      } else {
+        alert(res.message);
+      }
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    if (userInfo.isLoggedIn) {
+      router.replace(`/${userInfo.id}/cheers`);
+    }
+  }, [userInfo, router]);
 
   return (
     <Layout>
@@ -63,7 +68,7 @@ export default function LandingPage() {
         <Title text="송년회 건배사를" />
         <Title text="작성해주세요" />
         <Description text="건배사를 작성하고 마음을 주고받으세요" />
-        <Spacer my={300} />
+        <Spacer my={200} />
         <Actions>
           <KakaoLogin
             token="ae9591959993b2e07fa27cf3c424b5f0"
@@ -71,6 +76,7 @@ export default function LandingPage() {
             onFail={console.error}
             onLogout={console.info}
             render={({ onClick }) => <KaKaoLoginButton onClick={onClick} />}
+            throughTalk
           />
         </Actions>
       </Contianer>
