@@ -70,9 +70,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
       const post = await client.post.create({
         data: {
-          name,
-          badge,
-          content,
+          name: name + '',
+          badge: badge + '',
+          content: content + '',
           rollingPaperId: rollingPaperId,
         },
       });
