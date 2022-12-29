@@ -5,7 +5,14 @@ const Container = styled.img``;
 
 interface Props {
   size?: number;
-  name: "beer" | "makgeolli" | "soju" | "whiskey" | "wine";
+  name:
+    | "beer"
+    | "makgeolli"
+    | "soju"
+    | "whiskey"
+    | "wine"
+    | "home_off"
+    | "people_off";
 }
 
 function Icon({ size = 24, name }: Props) {

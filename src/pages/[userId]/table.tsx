@@ -1,6 +1,8 @@
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "../../atoms";
 import Button from "../../components/Button";
 import CheersTable from "../../components/CheersTable";
 import Description from "../../components/Description";
@@ -13,17 +15,41 @@ const Container = styled.div``;
 function TablePage() {
   const router = useRouter();
   const userId = router.query.userId as string;
+  const userInfo = useRecoilValue(userInfoState);
+  const [posts, setPosts] = useState<{ id: number; badge: string }[]>([]);
 
   const copyURL = () => {
     let currentUrl = window.document.location.href;
     let t = document.createElement("textarea");
     document.body.appendChild(t);
-    t.value = currentUrl;
+    t.value = currentUrl.replace("table", "excheers");
     t.select();
     document.execCommand("copy");
     document.body.removeChild(t);
 
     alert("링크가 복사되었습니다. 친구에게 공유해보세요!");
+  };
+
+  const getPosts = async () => {
+    try {
+      const response = await fetch(`/api/post/${userId}`);
+      const res = await response.json();
+      if (res.ok) {
+        setPosts(res.posts);
+      } else {
+        setPosts([]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  useEffect(() => {
+    getPosts();
+  }, []);
+
+  const onClickExCheers = () => {
+    router.push(`/${userId}/excheers`);
   };
 
   return (
@@ -32,9 +58,13 @@ function TablePage() {
         <Title text="닉네임님의 건배사 테이블" />
         <Description text="친구들의 맞건배사 모음 공간입니다. :)" />
         <Spacer my={40} />
-        <CheersTable />
+        <CheersTable posts={posts} />
         <Spacer my={40} />
-        <Button title="내 건배사 링크 복사" onClick={copyURL} />
+        {userInfo.id === userId ? (
+          <Button title="내 건배사 링크 복사" onClick={copyURL} />
+        ) : (
+          <Button title="맞건배사 쓰러가기" onClick={onClickExCheers} />
+        )}
       </Container>
     </Layout>
   );

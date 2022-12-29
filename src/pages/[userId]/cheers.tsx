@@ -59,7 +59,9 @@ function CheersPage() {
       const response = await fetch(`/api/rollingpaper/${userId}`);
       const res = await response.json();
       if (res.ok) {
-        setText(res.content);
+        if (res.content.length > 0) {
+          router.push(`/${userId}/table`);
+        }
       } else {
         setText("");
       }

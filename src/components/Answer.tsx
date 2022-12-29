@@ -32,15 +32,20 @@ const Timestamp = styled.div`
   margin-top: 4px;
 `;
 
-function Answer() {
+interface Props {
+  badge: string;
+  name: string;
+  content: string;
+}
+
+function Answer({ badge, name, content }: Props) {
   return (
     <Container>
       <Info>
-        <Icon name="whiskey" />
-        <Name>name</Name>
+        <Icon name={badge} />
+        <Name>{name}</Name>
       </Info>
-      <TextBox text="kqlwjeklqwjeklqwjeklqwjeklqwejkl" />
-      <Timestamp>2022.12.30 12시</Timestamp>
+      <TextBox text={content} />
     </Container>
   );
 }
