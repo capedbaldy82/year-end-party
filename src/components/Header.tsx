@@ -1,9 +1,10 @@
-import styled from "@emotion/styled";
-import { useRouter } from "next/router";
-import React from "react";
-import Icon from "./Icon";
+import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
+import React from 'react';
+import Icon from './Icon';
 
 const Container = styled.header`
+  position: relative;
   width: 100%;
   height: 60px;
 
@@ -15,6 +16,10 @@ const Container = styled.header`
 `;
 
 const Title = styled.h1`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
   font-size: 24px;
   font-weight: 700;
 
@@ -23,11 +28,17 @@ const Title = styled.h1`
 
 const Left = styled.div``;
 
-const Right = styled.div``;
+const Right = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
 
 const Menus = styled.ul`
   display: flex;
   align-items: center;
+
+  height: 60px;
 `;
 
 const Menu = styled.li`
@@ -46,6 +57,7 @@ const MenuName = styled.span`
   font-weight: 400;
   font-size: 10px;
   line-height: 12px;
+  white-space: nowrap;
 
   color: #ffffff;
 `;
@@ -55,7 +67,7 @@ function Header() {
   const userId = router.query.userId as string;
 
   const onClickToHome = () => {
-    router.push("/");
+    router.push('/');
   };
 
   const onClickToTable = () => {
