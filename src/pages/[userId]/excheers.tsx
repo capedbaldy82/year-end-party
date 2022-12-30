@@ -178,7 +178,11 @@ function ExcheersPage() {
           <Spacer my={16} />
           <TextBox text={text} />
           <Spacer my={64} />
-          <Answer badge={badge} name={name} content={content} />
+          <Answer
+            badge={badge as "beer" | "makgeolli" | "soju" | "whiskey" | "wine"}
+            name={name}
+            content={content}
+          />
           <Spacer my={32} />
           <Button title="친구 테이블 구경 가기" onClick={onClickToTable} />
           <Spacer my={16} />

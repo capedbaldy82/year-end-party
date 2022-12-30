@@ -92,7 +92,9 @@ function AnswerPage() {
           <div key={post.id}>
             <Answer
               name={post.name}
-              badge={post.badge}
+              badge={
+                post.badge as "beer" | "makgeolli" | "soju" | "whiskey" | "wine"
+              }
               content={post.content}
             />
             <Spacer my={16} />

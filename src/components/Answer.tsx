@@ -33,7 +33,7 @@ const Timestamp = styled.div`
 `;
 
 interface Props {
-  badge: string;
+  badge: "beer" | "makgeolli" | "soju" | "whiskey" | "wine";
   name: string;
   content: string;
 }

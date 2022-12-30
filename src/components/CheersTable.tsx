@@ -96,7 +96,12 @@ function CheersTable({ posts }: Props) {
       <Items>
         {curPosts.map((post) => (
           <Item key={post.id}>
-            <Icon name={post.badge} size={64} />
+            <Icon
+              name={
+                post.badge as "beer" | "makgeolli" | "soju" | "whiskey" | "wine"
+              }
+              size={64}
+            />
           </Item>
         ))}
       </Items>
