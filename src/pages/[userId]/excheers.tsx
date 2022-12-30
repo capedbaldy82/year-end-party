@@ -1,16 +1,16 @@
-import styled from "@emotion/styled";
-import { useRouter } from "next/router";
-import React, { ChangeEvent, useEffect, useState } from "react";
-import Answer from "../../components/Answer";
-import BadgeSelector from "../../components/BadgeSelector";
-import Button from "../../components/Button";
-import Description from "../../components/Description";
-import Layout from "../../components/Layout";
-import Spacer from "../../components/Spacer";
-import TextArea from "../../components/TextArea";
-import TextBox from "../../components/TextBox";
-import TextInput from "../../components/TextInput";
-import Title from "../../components/Title";
+import styled from '@emotion/styled';
+import { useRouter } from 'next/router';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import Answer from '../../components/Answer';
+import BadgeSelector from '../../components/BadgeSelector';
+import Button from '../../components/Button';
+import Description from '../../components/Description';
+import Layout from '../../components/Layout';
+import Spacer from '../../components/Spacer';
+import TextArea from '../../components/TextArea';
+import TextBox from '../../components/TextBox';
+import TextInput from '../../components/TextInput';
+import Title from '../../components/Title';
 
 const Container = styled.div``;
 
@@ -18,16 +18,16 @@ function ExcheersPage() {
   const router = useRouter();
   const userId = router.query.userId as string;
 
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
 
   const [step, setStep] = useState(0);
-  const [name, setName] = useState("");
-  const [badge, setBadge] = useState("beer");
+  const [name, setName] = useState('');
+  const [badge, setBadge] = useState('beer');
   const onClickBadge = (value: string) => {
     setBadge(value);
   };
 
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
 
   const onChangeName = (event: ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
@@ -52,7 +52,7 @@ function ExcheersPage() {
       if (res.ok) {
         setText(res.content);
       } else {
-        setText("");
+        setText('');
       }
     } catch (error) {
       console.error(error);
@@ -67,8 +67,8 @@ function ExcheersPage() {
 
   const onClickNext = () => {
     if (step === 1) {
-      if (name.trim() === "") {
-        return alert("닉네임을 작성해주세요!");
+      if (name.trim() === '') {
+        return alert('닉네임을 작성해주세요!');
       }
     }
     setStep((prev) => prev + 1);
@@ -76,13 +76,13 @@ function ExcheersPage() {
 
   const onSubmit = async () => {
     try {
-      if (content.trim() === "") {
-        return alert("맞건배사를 작성해주세요!");
+      if (content.trim() === '') {
+        return alert('맞건배사를 작성해주세요!');
       }
-      const response = await fetch("/api/post", {
-        method: "POST",
+      const response = await fetch('/api/post', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           to: userId,
@@ -95,6 +95,7 @@ function ExcheersPage() {
       const res = await response.json();
       if (res.ok) {
         setStep((prev) => prev + 1);
+        setWrote(+userId);
       } else {
         alert(res.message);
       }
@@ -103,12 +104,31 @@ function ExcheersPage() {
     }
   };
 
+  const setWrote = (userId: number) => {
+    const wrote = localStorage.getItem('wrote');
+
+    if (wrote) {
+      const parsedWrote = JSON.parse(wrote);
+
+      if (parsedWrote.includes(userId)) {
+        return;
+      }
+
+      if (typeof parsedWrote === 'object') {
+        localStorage.setItem('wrote', JSON.stringify([...parsedWrote, userId]));
+        console.log(localStorage.getItem('wrote'));
+      }
+    } else {
+      localStorage.setItem('wrote', JSON.stringify([userId]));
+    }
+  };
+
   const onClickToTable = () => {
     router.push(`/${userId}/table`);
   };
 
   const onClickToHome = () => {
-    router.push("/");
+    router.push('/');
   };
 
   return (
@@ -119,12 +139,7 @@ function ExcheersPage() {
           <Title text="작성해주세요." />
           <Description text="건배사를 작성하고 마음을 주고받으세요." />
           <Spacer my={16} />
-          <TextArea
-            value={text}
-            onChange={() => {}}
-            contentEditable={false}
-            readOnly
-          />
+          <TextArea value={text} onChange={() => {}} contentEditable={false} readOnly />
           <Spacer my={32} />
           <Button title="맞건배사 작성하기" onClick={onClickNext} />
         </Container>
@@ -134,12 +149,7 @@ function ExcheersPage() {
           <Title text="닉네임 입력" />
           <Description text="멋진 닉네임을 지정해보세요!" />
           <Spacer my={16} />
-          <TextInput
-            value={name}
-            onChange={onChangeName}
-            count={name.length}
-            maxCount={8}
-          />
+          <TextInput value={name} onChange={onChangeName} count={name.length} maxCount={8} />
           <Spacer my={32} />
           <Button title="다음" onClick={onClickNext} />
         </Container>
@@ -179,7 +189,7 @@ function ExcheersPage() {
           <TextBox text={text} />
           <Spacer my={64} />
           <Answer
-            badge={badge as "beer" | "makgeolli" | "soju" | "whiskey" | "wine"}
+            badge={badge as 'beer' | 'makgeolli' | 'soju' | 'whiskey' | 'wine'}
             name={name}
             content={content}
           />
