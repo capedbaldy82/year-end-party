@@ -60,7 +60,7 @@ function TablePage() {
         <Spacer my={40} />
         <CheersTable posts={posts} />
         <Spacer my={40} />
-        {userInfo.id === userId ? (
+        {userInfo.id === Number(userId) ? (
           <Button title="내 건배사 링크 복사" onClick={copyURL} />
         ) : (
           <Button title="맞건배사 쓰러가기" onClick={onClickExCheers} />
