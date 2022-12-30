@@ -1,7 +1,11 @@
 import styled from '@emotion/styled';
 import { useRouter } from 'next/router';
+import { userInfoState } from '../atoms';
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import Icon from './Icon';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 const Container = styled.header`
   position: relative;
@@ -65,34 +69,68 @@ const MenuName = styled.span`
 function Header() {
   const router = useRouter();
   const userId = router.query.userId as string;
+  const myUserInfo = useRecoilValue(userInfoState);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isMyPage, setIsMyPage] = useState(false);
 
   const onClickToHome = () => {
     router.push('/');
   };
 
   const onClickToTable = () => {
-    router.push(`/${userId}/table`);
+    if (!myUserInfo.id) return;
+    router.push(`/${myUserInfo.id}/table`);
   };
 
   const onClickToAnswer = () => {
     router.push(`/${userId}/answer`);
   };
 
+  const checkIsLoggedIn = () => {
+    if (!myUserInfo) return;
+
+    if (myUserInfo.isLoggedIn) {
+      setIsLoggedIn(true);
+    }
+  };
+
+  const checkIsMyPage = () => {
+    if (!router.query.userId) return;
+    if (!myUserInfo.id) return;
+
+    if (router.query.userId) {
+      if (+router.query.userId === myUserInfo.id) {
+        setIsMyPage(true);
+      } else {
+        setIsMyPage(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    checkIsLoggedIn();
+    checkIsMyPage();
+  }, [myUserInfo, router]);
+
   return (
     <Container>
       <Left></Left>
       <Title onClick={onClickToHome}>송년회</Title>
       <Right>
-        <Menus>
-          <Menu onClick={onClickToTable}>
-            <Icon name="home_off" />
-            <MenuName>마이페이지</MenuName>
-          </Menu>
-          <Menu onClick={onClickToAnswer}>
-            <Icon name="people_off" />
-            <MenuName>답변보기</MenuName>
-          </Menu>
-        </Menus>
+        {isLoggedIn && (
+          <Menus>
+            <Menu onClick={onClickToTable}>
+              <Icon name="home_off" />
+              <MenuName>마이페이지</MenuName>
+            </Menu>
+            {isMyPage ? (
+              <Menu onClick={onClickToAnswer}>
+                <Icon name="people_off" />
+                <MenuName>답변보기</MenuName>
+              </Menu>
+            ) : null}
+          </Menus>
+        )}
       </Right>
     </Container>
   );
