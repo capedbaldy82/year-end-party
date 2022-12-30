@@ -30,8 +30,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         },
       });
 
-      console.log(posts?.RollingPaper?.posts);
-
       const filteredPosts = posts?.RollingPaper?.posts.map((post) => ({
         id: post.id,
         badge: post.badge,
